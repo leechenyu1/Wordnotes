@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>词间 · 单词笔记</title><meta name="description" content="像写笔记一样记单词，自动补充词性和中文释义。"><style>*{box-sizing:border-box}:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;color:#34372f;background:#f7f6f0}body{margin:0}button,input,textarea{font:inherit}button{cursor:pointer}header{max-width:1200px;margin:auto;padding:28px 40px;display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{color:inherit;text-decoration:none;font-weight:700;font-size:21px}.brand span{font-size:10px;letter-spacing:2px;color:#929587;margin-left:12px}header>div{display:flex;gap:20px;align-items:center}#save-status{font-size:11px;color:#838878}button{background:none;border:1px solid #dcded2;border-radius:7px;padding:9px 13px;color:#667057}button:hover{background:#eeeee4}main{max-width:1000px;margin:45px auto;padding:0 30px}.eyebrow{color:#999e8a;font-size:10px;letter-spacing:3px}#title{font-size:38px;font-weight:650;letter-spacing:-1px;border:0;background:none;width:100%;color:inherit;margin:18px 0 10px;padding:3px 0}.intro{font-size:13px;color:#909582;line-height:1.8;margin-bottom:32px}.paper{background:#fffefb;border:1px solid #e5e5da;border-radius:12px;box-shadow:0 8px 30px #383a2b05;padding:20px 28px 26px}.paper-top{display:flex;justify-content:space-between;color:#a0a58f;font-size:10px;letter-spacing:1px;padding-bottom:16px;border-bottom:1px solid #e9eadd}.line{padding:16px 0;border-bottom:1px solid #ececdf;display:grid;grid-template-columns:25px 170px 16px minmax(0,1fr) 28px;gap:8px;align-items:start}.number{color:#c4c7b9;font:12px monospace;padding-top:10px}.word{font-family:Georgia,serif;font-size:21px;color:#454c3a;min-width:0}.line input,.line textarea{background:transparent;border:0;outline:none;padding:6px 2px;width:100%;border-radius:3px}.line input:focus,.line textarea:focus{background:#f4f5ed}.arrow{padding-top:10px;color:#b6bca7;font-size:13px}.meaning{color:#697557;resize:vertical;min-height:38px;line-height:1.7;font-size:14px}.remark{grid-column:2/5;color:#95998b;font-size:12px}.remove{font-size:16px;padding:5px;border:0;color:#c1c4b8}.feedback{grid-column:4;font-size:11px;color:#b58262;display:flex;align-items:center;gap:8px}.feedback:empty{display:none}.feedback button{padding:1px 5px;font-size:11px}#add{border:0;font-size:12px;margin:20px 0 0 25px;padding:8px 0;color:#8a947a}footer{font-size:11px;line-height:1.9;color:#a1a58f;margin-top:22px}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #b5bd9f;outline-offset:3px}@media(max-width:640px){header{padding:22px}.brand span,#save-status{display:none}main{margin-top:25px;padding:0 18px}#title{font-size:29px}.paper{padding:16px}.line{grid-template-columns:18px minmax(90px,115px) 12px minmax(0,1fr) 20px;gap:4px}.word{font-size:18px}.meaning{font-size:13px}.intro{font-size:12px}}
+.dictionary-panel{margin:0 0 24px;padding:16px 18px;border:1px solid #dfe3d4;border-radius:10px;background:#f0f2e9;font-size:12px}.dictionary-panel summary{cursor:pointer;color:#5c674e}.dictionary-panel summary span{display:inline-block;margin-left:12px;color:#7f886f;font-size:11px}.dictionary-panel p{font-size:11px;color:#90957f;line-height:1.7}.dictionary-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.dictionary-actions a,footer a{color:#727f5e}.file-label{cursor:pointer;border:1px solid #dcded2;border-radius:7px;padding:9px 13px;color:#667057}.file-label input{display:block;font-size:11px;max-width:220px;margin-top:7px}.recheck{grid-column:2/4;justify-self:start;border:0;padding:0;font-size:10px;color:#a1a88e}.feedback{grid-column:4/6}button:disabled{opacity:.5;cursor:wait}.meaning{min-height:70px;white-space:pre-wrap}.dictionary-panel summary span{max-width:100%;overflow-wrap:anywhere}
+select{font:inherit;color:#667057;background:#fffefb;border:1px solid #dcded2;border-radius:7px;padding:9px;max-width:190px}.phrase-options{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;color:#7a8569;font-size:12px}.phrase-options label{display:flex;gap:8px;align-items:center}.phrase-options input{accent-color:#6c7b55}.phrase-options>span{font-size:10px;color:#989f89;margin-left:24px}.line{grid-template-columns:25px minmax(160px,29%) 16px minmax(0,1fr) 28px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}select:focus-visible{outline:2px solid #b5bd9f;outline-offset:3px}@media(max-width:640px){header{flex-wrap:wrap}header>div{gap:8px}.line{grid-template-columns:18px minmax(100px,33%) 12px minmax(0,1fr) 20px}select{max-width:150px;font-size:12px}.word{font-size:16px}}
+.app-layout{display:grid;grid-template-columns:220px minmax(0,1000px);max-width:1260px;margin:24px auto;gap:35px;padding:0 24px}.app-layout main{margin:20px 0 0;padding:0;min-width:0}.project-sidebar{padding-top:25px;border-right:1px solid #e1e4d7;padding-right:18px}.sidebar-title{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;margin-bottom:18px}.sidebar-title button{font-size:11px;padding:6px 8px}.project-item{width:100%;display:flex;gap:8px;align-items:center;justify-content:space-between;border:0;border-radius:7px;text-align:left;font-size:12px;padding:12px 10px;margin-bottom:5px}.project-item[aria-current="page"]{background:#e8eddf;color:#4c5d3e}.project-name{min-width:0;overflow-wrap:anywhere}.project-count{font-size:10px;white-space:nowrap;color:#a0a891}.backup-actions{display:grid;gap:10px;border-top:1px solid #e1e4d7;margin-top:26px;padding-top:22px}.backup-actions button,.restore-label{font-size:11px;text-align:left}.restore-label{display:block;border:1px solid #dcded2;border-radius:7px;padding:9px 13px;color:#667057;cursor:pointer}.restore-label input{width:100%;font-size:10px;margin-top:8px}.backup-actions p,#workspace-status{font-size:10px;color:#909a7e;line-height:1.9}.brand{white-space:nowrap}header{max-width:1300px}header>div{gap:12px}#save-status{font-size:10px}#workspace-status{overflow-wrap:anywhere}@media(max-width:850px){.app-layout{display:block;padding:0 20px;margin-top:0}.project-sidebar{border-right:0;padding:5px 0 20px;border-bottom:1px solid #e1e4d7}.sidebar-title{margin-bottom:10px}#projects{display:flex;gap:8px;overflow:auto}.project-item{width:auto;min-width:120px;max-width:220px;flex-shrink:0}.backup-actions{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;border:0;margin:12px 0 0;padding:0}.backup-actions p{flex-basis:100%;margin:0}.restore-label input{max-width:160px}.app-layout main{margin-top:28px}header{padding:20px}.brand span{display:none}}
+.file-import-panel{border:1px solid #dfe3d4;border-radius:10px;padding:16px 18px;margin-bottom:20px;font-size:12px;background:#fffefb}.file-import-panel summary{cursor:pointer;color:#657452;font-weight:600}.file-import-panel p{font-size:11px;color:#8d967e;line-height:1.8}.import-controls{display:flex;flex-wrap:wrap;gap:14px;margin:16px 0}.import-controls label{display:flex;flex-direction:column;gap:8px;color:#7d896c;font-size:11px}.import-controls input{max-width:240px;font-size:11px}.import-options{display:flex;flex-wrap:wrap;gap:18px;color:#849071;margin-bottom:12px}.import-options label{display:flex;align-items:center;gap:5px}.preview-list{max-height:230px;overflow:auto;background:#f5f6ef;border-radius:6px;line-height:2;padding:12px 16px 12px 40px;color:#5e6b4c}.preview-list li{white-space:pre-wrap;overflow-wrap:anywhere}#notes-import-status{display:block;margin-top:9px;font-size:11px;color:#929b81}.batch-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0}.batch-toolbar button{font-size:11px}.batch-toolbar span{font-size:11px;color:#949d85}.line .word{font-family:inherit;font-size:16px}.line .meaning{font-size:14px}#batch-stop[hidden]{display:none}
+.line textarea.word{resize:vertical;min-height:36px;line-height:1.6;overflow-wrap:anywhere;white-space:pre-wrap;overflow:hidden}
+</style></head>
+<body><header><a href="#" class="brand">词间 <span>WORD NOTES</span></a><div><span id="save-status" role="status">笔记保存在此浏览器</span><label class="export-picker"><span class="sr-only">导出格式</span><select id="export-format" aria-label="导出格式"><option value="txt">TXT · 纯文本</option><option value="md">Markdown · 笔记</option><option value="csv">CSV · 表格</option><option value="json">JSON · 完整数据</option><option value="html">HTML · 网页 / 打印</option></select></label><button id="export">导出 ↗</button></div></header>
+<div class="app-layout"><aside class="project-sidebar"><div class="sidebar-title">我的项目 <button id="new-project" type="button" aria-label="新建项目">＋ 新建</button></div><nav id="projects" aria-label="笔记项目"></nav><div class="backup-actions"><button id="backup-all" type="button">备份所有项目</button><label class="restore-label">导入 / 恢复 JSON<input id="restore-file" type="file" accept=".json,application/json"></label><button id="snapshot" type="button">保存可携带副本</button><p>本地使用，无需部署。标题可直接改名。<br>浏览器自动保存；备份文件可随身带走。</p><div id="workspace-status" role="status"></div></div></aside><main><div class="eyebrow">MY VOCABULARY NOTEBOOK</div><input id="title" aria-label="项目名称（修改即可重命名）" placeholder="项目名称（可直接修改）" maxlength="120"><p class="intro">写下英文单词、短语或句子，中文释义会自动跟在后面。按 Enter，继续下一行。</p><details class="dictionary-panel" open><summary>英汉词库 <span id="dictionary-status" role="status">正在检查本地词库…</span></summary><p>一次导入，之后直接查中文释义。下载完整词库可能需要一些时间。</p><div class="dictionary-actions"><button id="dictionary-download" type="button">下载并导入 ECDICT</button><label class="file-label">从 CSV 文件导入 <input id="dictionary-file" type="file" accept=".csv,text/csv"></label><a href="https://github.com/skywind3000/ECDICT/blob/master/ecdict.csv" target="_blank" rel="noopener noreferrer">词库下载页 ↗</a></div><p>已有笔记保留原内容；点击每行“词典重查”即可替换旧释义。</p></details><div class="phrase-options"><label><input id="phrase-online" type="checkbox" checked> 短语 / 句子未收录时，自动在线翻译</label><span>启用后会将完整短语或句子发送至 MyMemory；在线结果仅供参考。单词仍使用词库。</span></div><details class="file-import-panel"><summary>从文件批量导入</summary><p>每个非空行作为一条笔记：一个词是单词，多个词保留为完整短语或句子。</p><div class="import-controls"><label>选择文件<input id="notes-file" type="file" accept=".txt,.md,.csv,.tsv,.json,.docx"></label><label>文本编码<select id="notes-encoding"><option value="auto">自动（UTF-8 / UTF-16）</option><option value="utf-8">UTF-8</option><option value="utf-16le">UTF-16 LE</option><option value="utf-16be">UTF-16 BE</option><option value="gb18030">GB18030 / GBK</option></select></label><label>导入位置<select id="notes-destination"><option value="new">创建新项目（文件名）</option><option value="current">加入当前项目</option></select></label></div><p>支持 TXT、MD、CSV、TSV、JSON 和 Word DOCX。CSV/TSV 优先读取英文列；没有表头时用第一列作英文，第二列作释义。DOCX 按段落与手动换行读取，自动折行不会拆开。PDF 和扫描件需先转换为文本。</p><div class="import-options"><label><input id="notes-deduplicate" type="checkbox"> 忽略重复条目</label><label><input id="notes-auto" type="checkbox" checked> 导入后补全空白释义</label></div><div id="notes-preview" aria-live="polite"></div><button id="notes-import" type="button" disabled>确认导入</button><span id="notes-import-status" role="status"></span></details><div class="batch-toolbar"><button id="batch-fill" type="button">补全空白释义</button><button id="batch-stop" type="button" hidden>停止补全</button><span id="batch-status" role="status"></span></div><div class="paper"><div class="paper-top"><span>单词、短语或句子 / 释义 / 你的备注</span><span id="count">0 条笔记</span></div><div id="lines"></div><button id="add">＋ 新的一行</button></div><footer>释义可直接修改，备注可以自由填写。自动释义直接取自 <a href="https://github.com/skywind3000/ECDICT" target="_blank" rel="noopener noreferrer">ECDICT</a> 英汉词库；首次导入需要下载数据。<a href="https://github.com/skywind3000/ECDICT/blob/master/LICENSE">MIT 授权说明</a>。<br>关闭后可在同一浏览器、同一文件位置继续。请勿使用无痕模式；移动文件或清理浏览器前，先备份所有项目。旧网站的数据需先导出 JSON，再在这里导入。</footer></main></div><script id="embedded-workspace" type="application/json">null</script><script>
+/* ECDICT CSV reader: preserves quoted commas, quotes and multiline definitions. */
+(function(root){
+  function normalize(word){return word.trim().toLowerCase().replace(/’/g,"'").replace(/\s+/g,' ')}
+  function valid(word){return /[a-z]/i.test(word)&&/^[\p{Script=Latin}\p{Number}\p{Punctuation}\p{Separator}\s+&%$€£=]*$/u.test(word.trim())&&!/[<>]/.test(word)}
+  function parseCSV(text){
+    text=text.replace(/^\uFEFF/,'');let headers=null,fields=[],field='',quoted=false,entries=new Map(),aliases=new Map();
+    function flush(){fields.push(field);field='';if(!headers){headers=fields.map(v=>v.trim());if(!headers.includes('word')||!headers.includes('translation'))throw Error('请选择 ECDICT CSV（需要 word、translation 列）')}else{
+      const at=name=>fields[headers.indexOf(name)]||'';
+      const word=normalize(at('word'));
+      const translation=at('translation').replace(/\\n/g,'\n').trim();
+      if(word&&translation){entries.set(word,translation);for(const pair of at('exchange').split('/')){const colon=pair.indexOf(':');const type=pair.slice(0,colon);if(!['p','d','i','3','r','t','s'].includes(type))continue;for(const form of pair.slice(colon+1).split(',')){const key=normalize(form);if(key&&key!==word&&!aliases.has(key))aliases.set(key,word)}}}
+    }fields=[]}
+    for(let i=0;i<text.length;i++){const c=text[i];if(quoted){if(c==='"'&&text[i+1]==='"'){field+='"';i++}else if(c==='"')quoted=false;else field+=c}else if(c==='"'&&field==='')quoted=true;else if(c===','){fields.push(field);field=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;flush()}else field+=c}
+    if(quoted)throw Error('CSV 引号未闭合，文件可能不完整');if(field||fields.length)flush();if(!entries.size)throw Error('词库内没有有效中文释义');
+    return{entries:[...entries],aliases:[...aliases]};
+  }
+  function lookup(data,word){word=normalize(word);const exact=data.entries.get(word);if(exact)return exact;const base=data.aliases.get(word);const meaning=base&&data.entries.get(base);return meaning?meaning+'\n（词形原形：'+base+'）':null}
+  function workerSource(){return 'const normalize='+normalize.toString()+';const parseCSV='+parseCSV.toString()+';onmessage=e=>{try{postMessage({data:parseCSV(e.data)})}catch(error){postMessage({error:error.message})}};'}
+  root.DictionaryCore={parseCSV,lookup,normalize,valid,workerSource};
+})(globalThis);
+
+</script><script>
+/* Dictionary lookup stays local; optional phrase translation is handled separately. */
+const Dictionary=(()=>{
+  let current=null,busy=false;
+  const status=document.querySelector('#dictionary-status'),online=document.querySelector('#dictionary-download'),picker=document.querySelector('#dictionary-file');
+  const URL='https://raw.githubusercontent.com/skywind3000/ECDICT/master/ecdict.csv';
+  function database(){return new Promise((resolve,reject)=>{const req=indexedDB.open('word-notes-dictionary',1);req.onupgradeneeded=()=>req.result.createObjectStore('dictionary');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+  async function read(){const db=await database();return new Promise((resolve,reject)=>{const tx=db.transaction('dictionary'),req=tx.objectStore('dictionary').get('ecdict');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);tx.oncomplete=()=>db.close();tx.onabort=()=>{db.close();reject(tx.error)}})}
+  async function write(data){const db=await database();return new Promise((resolve,reject)=>{const tx=db.transaction('dictionary','readwrite');tx.objectStore('dictionary').put(data,'ecdict');tx.oncomplete=()=>{db.close();resolve()};tx.onabort=tx.onerror=()=>{db.close();reject(tx.error)}})}
+  function parse(text){return new Promise((resolve,reject)=>{
+    let worker,url,settled=false;
+    function cleanup(){worker?.terminate();if(url)globalThis.URL.revokeObjectURL(url)}
+    function fallback(){if(settled)return;settled=true;cleanup();setTimeout(()=>{try{resolve(DictionaryCore.parseCSV(text))}catch(e){reject(e)}},30)}
+    try{url=globalThis.URL.createObjectURL(new Blob([DictionaryCore.workerSource()],{type:'text/javascript'}));worker=new Worker(url);worker.onmessage=e=>{if(settled)return;settled=true;cleanup();e.data.error?reject(Error(e.data.error)):resolve(e.data.data)};worker.onerror=fallback;worker.postMessage(text)}catch{fallback()}
+  })}
+  function activate(data){current={entries:new Map(data.entries.map(([k,v])=>[DictionaryCore.normalize(k),v])),aliases:new Map((data.aliases||[]).map(([k,v])=>[DictionaryCore.normalize(k),DictionaryCore.normalize(v)]))};status.textContent='ECDICT 已就绪 · '+current.entries.size.toLocaleString()+' 条中文词条';window.dispatchEvent(new Event('dictionary-ready'))}
+  async function install(text){status.textContent='正在整理词库，请稍候…';const data=await parse(text);let persisted=true;try{await write(data)}catch{persisted=false}activate(data);if(!persisted)status.textContent+=' · 无法保存，刷新后需重新导入'}
+  function lock(value){busy=value;online.disabled=value;picker.disabled=value}
+  const ready=(async()=>{try{const saved=await read();if(saved?.entries?.length)activate(saved);else status.textContent='尚未导入词库，请下载导入或选择 CSV 文件'}catch{status.textContent='尚未导入词库；浏览器存储不可用时仅本次访问有效'}})();
+  online.onclick=async()=>{await ready;if(busy)return;lock(true);status.textContent='正在下载完整 ECDICT（文件较大，请稍候）…';const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),180000);try{const response=await fetch(URL,{signal:controller.signal});if(!response.ok)throw Error('下载失败');const reader=response.body.getReader(),chunks=[];let size=0;for(;;){const {done,value}=await reader.read();if(done)break;chunks.push(value);size+=value.byteLength;status.textContent='正在下载 ECDICT · '+(size/1048576).toFixed(1)+' MB'}const text=await new Blob(chunks).text();await install(text)}catch{status.textContent=(current?'原词库仍可用。':'')+'下载未完成；请通过下方词库链接下载 CSV，再选择文件导入'}finally{clearTimeout(timeout);lock(false)}};
+  picker.onchange=async()=>{await ready;const file=picker.files[0];if(!file||busy)return;lock(true);try{await install(await file.text())}catch(e){status.textContent=e.message+(current?'；原词库仍可用':'')}finally{lock(false);picker.value=''}};
+  return{ready,lookup:async word=>{await ready;if(!current)throw Error('NO_DICTIONARY');return DictionaryCore.lookup(current,word)}};
+})();
+
+</script><script>
+(function(root){
+  const cache=new Map();let exhausted=false;
+  async function translate(text,signal){
+    text=DictionaryCore.normalize(text);if(cache.has(text))return cache.get(text);
+    if(exhausted)throw Error('QUOTA');
+    if(new TextEncoder().encode(text).length>500)throw Error('TOO_LONG');
+    const url=new URL('https://api.mymemory.translated.net/get');url.searchParams.set('q',text);url.searchParams.set('langpair','en|zh-CN');
+    const response=await fetch(url,{signal});if(response.status===429){exhausted=true;throw Error('QUOTA')}if(!response.ok)throw Error('NETWORK');const data=await response.json();if([403,429].includes(Number(data.responseStatus))){exhausted=true;throw Error('QUOTA')}
+    const result=data.responseData?.translatedText;
+    if(Number(data.responseStatus)!==200||typeof result!=='string'||!result.trim()||!/[\u3400-\u9fff]/u.test(result))throw Error('TRANSLATION');
+    cache.set(text,result.trim());return result.trim();
+  }
+  root.PhraseTranslation={translate};
+})(globalThis);
+
+</script><script>
+/* Pure serializers: keep notes and source labels in every format. */
+(function(root){
+  const sourceLabel=source=>({dictionary:'ECDICT',machine:'在线翻译参考',manual:'手动编辑'}[source]||'原有笔记');
+  const html=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const md=value=>String(value??'').replace(/\\/g,'\\\\').replace(/[|`*_[\]<>#]/g,'\\$&').replace(/\r?\n/g,'<br>');
+  function csv(value){let s=String(value??'');if(/^[\s\uFEFF]*[=+@-]/u.test(s)||/^[\t\r\n]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}
+  function serialize(format,title,rows){
+    title=title.trim()||'单词笔记';const notes=rows.filter(r=>r.word.trim()||r.meaning.trim()||r.remark.trim()).map(r=>({word:r.word,meaning:r.meaning,remark:r.remark,source:r.source||'unknown'}));
+    let content,mime;switch(format){
+      case 'txt':content=title+'\n\n'+notes.map(r=>r.word+' → '+r.meaning+'\n来源：'+sourceLabel(r.source)+(r.remark?'\n备注：'+r.remark:'')).join('\n\n');mime='text/plain';break;
+      case 'md':content='# '+md(title)+'\n\n| 英文单词 / 短语 | 中文释义 | 备注 | 来源 |\n| --- | --- | --- | --- |\n'+notes.map(r=>'| '+[r.word,r.meaning,r.remark,sourceLabel(r.source)].map(md).join(' | ')+' |').join('\n');mime='text/markdown';break;
+      case 'csv':content='\uFEFF'+[['英文单词 / 短语','中文释义','备注','来源'],...notes.map(r=>[r.word,r.meaning,r.remark,sourceLabel(r.source)])].map(row=>row.map(csv).join(',')).join('\r\n');mime='text/csv';break;
+      case 'json':content=JSON.stringify({schemaVersion:1,title,exportedAt:new Date().toISOString(),rows:notes},null,2);mime='application/json';break;
+      case 'html':content='<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html(title)+'</title><style>body{max-width:1050px;margin:40px auto;padding:20px;font:15px/1.8 system-ui;color:#34372f}table{border-collapse:collapse;width:100%;table-layout:fixed}th,td{border:1px solid #ddd;padding:12px;text-align:left;white-space:pre-wrap;overflow-wrap:anywhere}th{background:#f1f3ec}@media print{body{margin:0}tr{break-inside:avoid}}</style><h1>'+html(title)+'</h1><table><thead><tr><th>英文单词 / 短语</th><th>中文释义</th><th>备注</th><th>来源</th></tr></thead><tbody>'+notes.map(r=>'<tr>'+[r.word,r.meaning,r.remark,sourceLabel(r.source)].map(v=>'<td>'+html(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table></html>';mime='text/html';break;
+      default:throw Error('不支持的导出格式');
+    }
+    const filename=title.replace(/[<>:"/\\|?*\u0000-\u001f]/g,'_').replace(/^\.+|[. ]+$/g,'').slice(0,80)||'word-notes';
+    return{content,mime:mime+';charset=utf-8',filename:filename+'.'+format};
+  }
+  root.NoteExport={serialize,sourceLabel};
+})(globalThis);
+
+</script><script>
+(function(root){
+  const KEY='word-notes-workspace-v2',LEGACY='word-notes-notebook-v1';
+  function id(){return root.crypto?.randomUUID?.()||'note-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)}
+  function cleanRow(r){if(!r||typeof r.word!=='string'||typeof r.meaning!=='string')throw Error('笔记格式无效');return{id:id(),word:r.word,meaning:r.meaning,remark:typeof r.remark==='string'?r.remark:'',source:typeof r.source==='string'?r.source:'unknown'}}
+  function project(name='未命名项目',rows=[]){return{id:id(),name:name.trim()||'未命名项目',rows:rows.map(cleanRow),updatedAt:new Date().toISOString()}}
+  function validate(data){if(!data||data.schemaVersion!==2||!Array.isArray(data.projects)||!data.projects.length)throw Error('不是有效的完整项目备份');const ids=new Set();const projects=data.projects.map(p=>{if(!p||typeof p.id!=='string'||!p.id||ids.has(p.id)||typeof p.name!=='string'||!Array.isArray(p.rows))throw Error('项目格式无效');ids.add(p.id);return{...project(p.name,p.rows),id:p.id}});return{schemaVersion:2,activeProjectId:ids.has(data.activeProjectId)?data.activeProjectId:projects[0].id,projects}}
+  function create(storage,embedded=null){let state,loadError=null;try{const raw=storage.getItem(KEY);if(raw)state=validate(JSON.parse(raw));else if(embedded?.projects)state=validate(embedded);else{const legacy=JSON.parse(storage.getItem(LEGACY)||'null');const p=project(legacy?.title||'我的第一个项目',Array.isArray(legacy?.rows)?legacy.rows:[]);state={schemaVersion:2,activeProjectId:p.id,projects:[p]}}}catch(e){loadError=e;try{state=validate(embedded)}catch{const p=project();state={schemaVersion:2,activeProjectId:p.id,projects:[p]}}}
+    const api={get state(){return state},get loadError(){return loadError},active(){return state.projects.find(p=>p.id===state.activeProjectId)},persist(){if(loadError)throw Error('无法读取原有数据，当前内容仅在内存中，请先备份或恢复');storage.setItem(KEY,JSON.stringify(state))},add(name){const p=project(name);state.projects.push(p);state.activeProjectId=p.id;return p},switchTo(pid){if(!state.projects.some(p=>p.id===pid))throw Error('项目不存在');state.activeProjectId=pid},rename(name){api.active().name=name.trim()||'未命名项目';api.active().updatedAt=new Date().toISOString()},backup(){return JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2)},importData(input){let incoming;if(input?.schemaVersion===2)incoming=validate(input).projects;else if(input&&Array.isArray(input.rows)){incoming=[project(typeof input.title==='string'?input.title:'导入的笔记',input.rows)]}else throw Error('请选择完整项目备份或笔记 JSON');const added=incoming.map(p=>project(p.name,p.rows));state.projects.push(...added);state.activeProjectId=added[0].id;loadError=null;return added}};
+    return api;
+  }
+  root.WorkspaceCore={create,validate,project,id};
+})(globalThis);
+
+</script><script>
+/* Entire lines become entries; whitespace inside phrases never splits them into words. */
+(function(root){
+  function decode(buffer,encoding='auto'){
+    const bytes=new Uint8Array(buffer);
+    if(encoding!=='auto')return new TextDecoder(encoding,{fatal:true}).decode(bytes);
+    if(bytes[0]===255&&bytes[1]===254)return new TextDecoder('utf-16le').decode(bytes);
+    if(bytes[0]===254&&bytes[1]===255)return new TextDecoder('utf-16be').decode(bytes);
+    return new TextDecoder('utf-8',{fatal:true}).decode(bytes);
+  }
+  function lines(text){return String(text).replace(/^\uFEFF/,'').split(/\r\n|\n|\r/).map(s=>s.trim()).filter(Boolean)}
+  function makeRow(word,meaning='',remark='',source='unknown'){return{word:String(word??'').trim(),meaning:String(meaning??''),remark:String(remark??''),source:String(source||'unknown')}}
+  function csv(text,delimiter=','){
+    const table=[];let row=[],field='',quote=false;text=text.replace(/^\uFEFF/,'');
+    const end=()=>{row.push(field);if(row.some(s=>s.trim()))table.push(row);row=[];field=''};
+    for(let i=0;i<text.length;i++){const c=text[i];if(quote){if(c==='"'&&text[i+1]==='"'){field+='"';i++}else if(c==='"')quote=false;else field+=c}else if(c==='"'&&!field)quote=true;else if(c===delimiter){row.push(field);field=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;end()}else field+=c}
+    if(quote)throw Error('CSV 引号没有闭合，请检查文件');if(field||row.length)end();return table;
+  }
+  const wordNames=['word','english','phrase','sentence','term','英文','单词','短语','句子','英文单词 / 短语','英文单词 / 短语 / 句子'];
+  const meaningNames=['meaning','translation','中文','释义','中文释义'];const remarkNames=['remark','note','notes','备注'];
+  function fromText(text,extension){
+    if(extension==='csv'||extension==='tsv'){
+      const table=csv(text,extension==='tsv'?'\t':',');if(!table.length)return[];
+      const header=table[0].map(s=>s.trim().toLowerCase()),w=header.findIndex(s=>wordNames.includes(s));
+      if(w>=0){const m=header.findIndex(s=>meaningNames.includes(s)),n=header.findIndex(s=>remarkNames.includes(s)),src=header.findIndex(s=>s==='source'||s==='来源');return table.slice(1).map(cols=>makeRow(cols[w],cols[m]||'',cols[n]||'',({ECDICT:'dictionary','在线翻译参考':'machine','手动编辑':'manual'}[cols[src]]||cols[src]||'unknown'))).filter(r=>r.word)}
+      return table.map(cols=>makeRow(cols[0],cols[1]||'',cols[2]||'')).filter(r=>r.word);
+    }
+    if(extension==='json'){
+      const d=JSON.parse(text.replace(/^\uFEFF/,''));const list=Array.isArray(d)?d:d.rows;
+      if(!Array.isArray(list))throw Error('请选择字符串数组或含 rows 的 JSON；完整项目备份请使用左侧恢复功能');
+      return list.flatMap(item=>typeof item==='string'?lines(item).map(word=>makeRow(word)):item&&typeof item.word==='string'?[makeRow(item.word,item.meaning,item.remark,item.source)]:[]).filter(r=>r.word);
+    }
+    return lines(text).map(word=>makeRow(word));
+  }
+  function select(rows,existing=[],deduplicate=false){
+    const seen=new Set(existing.map(r=>DictionaryCore.normalize(r.word)));let duplicates=0;
+    const selected=[];for(const r of rows){const key=DictionaryCore.normalize(r.word);if(deduplicate&&seen.has(key)){duplicates++;continue}seen.add(key);selected.push(r)}
+    const single=selected.filter(r=>!DictionaryCore.normalize(r.word).includes(' ')).length;
+    return{rows:selected,duplicates,single,multiple:selected.length-single};
+  }
+  async function docx(buffer){
+    const bytes=new Uint8Array(buffer),v=new DataView(buffer);let eocd=-1;
+    for(let i=bytes.length-22;i>=Math.max(0,bytes.length-65557);i--)if(v.getUint32(i,true)===0x06054b50){eocd=i;break}
+    if(eocd<0)throw Error('不是有效的 DOCX 文件');
+    const count=v.getUint16(eocd+10,true);let pos=v.getUint32(eocd+16,true),xml;
+    for(let i=0;i<count;i++){
+      if(pos+46>bytes.length||v.getUint32(pos,true)!==0x02014b50)throw Error('DOCX 文件结构不完整');
+      const method=v.getUint16(pos+10,true),compressed=v.getUint32(pos+20,true),size=v.getUint32(pos+24,true),nameLen=v.getUint16(pos+28,true),extra=v.getUint16(pos+30,true),comment=v.getUint16(pos+32,true),local=v.getUint32(pos+42,true);
+      const name=new TextDecoder().decode(bytes.slice(pos+46,pos+46+nameLen));
+      if(name==='word/document.xml'){
+        if(size>20*1024*1024)throw Error('Word 文本过大，请另存为 TXT 后分批导入');
+        if(v.getUint16(pos+8,true)&1)throw Error('暂不支持加密或受密码保护的 Word 文件');
+        if(local+30>bytes.length||v.getUint32(local,true)!==0x04034b50)throw Error('DOCX 文件结构不完整');
+        const start=local+30+v.getUint16(local+26,true)+v.getUint16(local+28,true);if(start+compressed>bytes.length)throw Error('DOCX 文件不完整');const content=bytes.slice(start,start+compressed);
+        if(method===0)xml=new TextDecoder().decode(content);else if(method===8){let stream;try{stream=new Blob([content]).stream().pipeThrough(new DecompressionStream('deflate-raw'))}catch{throw Error('浏览器不支持 Word 解压，请在 Word 中另存为 TXT 后导入')}
+          const reader=stream.getReader(),chunks=[];let total=0;for(;;){const {done,value}=await reader.read();if(done)break;total+=value.byteLength;if(total>20*1024*1024){await reader.cancel();throw Error('Word 文本过大，请另存为 TXT 分批导入')}chunks.push(value)}xml=await new Blob(chunks).text();
+        }else throw Error('不支持该 Word 文件的压缩方式');break;
+      }
+      pos+=46+nameLen+extra+comment;
+    }
+    if(!xml)throw Error('Word 文件中未找到正文');
+    const document=new DOMParser().parseFromString(xml,'application/xml');if(document.getElementsByTagName('parsererror').length)throw Error('Word 正文格式无效');
+    const NS='http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+    const paragraphs=[...document.getElementsByTagNameNS(NS,'p')].filter(p=>{for(let a=p.parentElement;a;a=a.parentElement)if(a.namespaceURI===NS&&['del','moveFrom'].includes(a.localName))return false;return true});
+    const result=[];for(const p of paragraphs){let text='';function walk(n){if(n.nodeType!==1)return;if(n.namespaceURI===NS){if(n!==p&&n.localName==='p')return;if(['del','moveFrom'].includes(n.localName))return;if(n.localName==='t'){text+=n.textContent;return}if(n.localName==='tab'){text+=' ';return}if(['br','cr'].includes(n.localName)){text+='\n';return}}for(const child of n.childNodes)walk(child)}walk(p);result.push(...lines(text))}
+    return result.map(word=>makeRow(word));
+  }
+  async function read(file,encoding='auto'){
+    if(file.size>25*1024*1024)throw Error('文件超过 25 MB，请分成较小文件导入');
+    const ext=file.name.split('.').pop().toLowerCase();if(!['txt','md','csv','tsv','json','docx'].includes(ext))throw Error('支持 TXT、MD、CSV、TSV、JSON、DOCX；PDF、扫描件及旧版 DOC 请先转换为 TXT');
+    const buffer=await file.arrayBuffer();let rows;if(ext==='docx')rows=await docx(buffer);else{let text;try{text=decode(buffer,encoding)}catch{throw Error('文件编码无法识别，请切换 UTF-8、UTF-16 或 GB18030 后重新选择文件')}rows=fromText(text,ext)}
+    if(!rows.length)throw Error('没有找到非空条目');if(rows.length>10000)throw Error('超过 10,000 条，请拆分文件后导入；未导入任何条目');return rows;
+  }
+  root.FileImport={read,decode,lines,csv,fromText,select,docx};
+})(globalThis);
+
+</script><script>
+const box=document.querySelector('#lines'),title=document.querySelector('#title'),saveStatus=document.querySelector('#save-status');
+const jobs=new Map();let rows=[],saveTimer;
+const store=(()=>{try{return localStorage}catch{return{getItem(){throw Error('浏览器禁止本地保存')},setItem(){throw Error('浏览器禁止本地保存')}}}})();
+let embedded=null;try{embedded=JSON.parse(document.querySelector('#embedded-workspace').textContent)}catch{}
+const workspace=WorkspaceCore.create(store,embedded);
+function row(word='',meaning='',remark='',source='unknown'){return{id:WorkspaceCore.id(),word,meaning,remark,source}}
+function drawProjects(){const nav=document.querySelector('#projects');nav.replaceChildren();for(const p of workspace.state.projects){const b=node('button','project-item');b.type='button';b.setAttribute('aria-current',p.id===workspace.state.activeProjectId?'page':'false');const name=node('span','project-name');name.textContent=p.name;const count=node('span','project-count');count.textContent=p.rows.filter(r=>r.word.trim()).length+' 条';b.append(name,count);b.onclick=()=>{save();for(const id of jobs.keys())cancel(id);workspace.switchTo(p.id);showProject();save()};nav.append(b)}}
+function showProject(){stopBatch();const p=workspace.active();title.value=p.name;rows=p.rows;if(!rows.length)rows.push(row());box.replaceChildren();rows.forEach(r=>append(r));drawProjects()}
+function save(){clearTimeout(saveTimer);workspace.active().rows=rows;workspace.rename(title.value);try{workspace.persist();saveStatus.textContent='已自动保存 · 可关闭后继续'}catch(e){saveStatus.textContent='自动保存失败，请备份所有项目';document.querySelector('#workspace-status').textContent=e.message}document.querySelector('#count').textContent=rows.filter(r=>r.word.trim()).length+' 条笔记';drawProjects()}
+function node(tag,cls){const n=document.createElement(tag);n.className=cls;return n}
+function cancel(id){const j=jobs.get(id);if(j){clearTimeout(j.timer);j.controller?.abort();jobs.delete(id)}}
+function append(r,focus=false){const line=node('div','line');line.dataset.id=r.id;const number=node('span','number'),word=node('textarea','word'),arrow=node('span','arrow'),meaning=node('textarea','meaning'),remove=node('button','remove'),remark=node('input','remark'),feedback=node('div','feedback');word.value=r.word;word.placeholder='单词、短语或句子';word.setAttribute('aria-label','英文单词、短语或句子');word.maxLength=1000;word.rows=1;word.spellcheck=false;arrow.textContent='→';meaning.value=r.meaning;meaning.placeholder='自动补充释义…';meaning.rows=1;meaning.setAttribute('aria-label','词性与中文释义，可编辑');remark.value=r.remark;remark.placeholder='添加自己的备注或例句…';remark.setAttribute('aria-label','备注');remove.textContent='×';remove.setAttribute('aria-label','删除此行');feedback.setAttribute('role','status');const check=node('button','recheck');check.textContent='词典重查';check.type='button';check.onclick=()=>recheck(r,line);line.append(number,word,arrow,meaning,remove,remark,check,feedback);box.append(line);word.style.height='auto';word.style.height=Math.max(36,word.scrollHeight)+'px';if(r.meaning)feedback.textContent=NoteExport.sourceLabel(r.source);
+const start=()=>{cancel(r.id);feedback.replaceChildren();r.meaning='';r.source='unknown';meaning.value='';save();if(!r.word.trim())return;if(!DictionaryCore.valid(r.word)){feedback.textContent='请输入英文单词、短语或句子，例如 How are you?' ;return}const job={timer:setTimeout(()=>lookup(r,meaning,feedback,job),800)};jobs.set(r.id,job)};
+word.addEventListener('input',()=>{word.style.height='auto';word.style.height=Math.max(36,word.scrollHeight)+'px';r.word=word.value;start()});word.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const i=rows.indexOf(r);if(rows[i+1])box.children[i+1].querySelector('.word').focus();else add()}});
+meaning.addEventListener('input',()=>{cancel(r.id);feedback.replaceChildren();r.meaning=meaning.value;r.source='manual';save()});remark.addEventListener('input',()=>{r.remark=remark.value;save()});remove.onclick=()=>{cancel(r.id);rows=rows.filter(x=>x!==r);line.remove();if(!rows.length)add();renumber();save()};if(focus)word.focus();renumber()}
+function renumber(){[...box.children].forEach((n,i)=>n.querySelector('.number').textContent=String(i+1).padStart(2,'0'))}
+function add(){const r=row();rows.push(r);append(r,true);save()}
+async function lookup(r,field,feedback,job){
+  if(jobs.get(r.id)!==job)return;
+  if(!DictionaryCore.valid(r.word)){feedback.textContent='请输入英文单词、短语或句子';jobs.delete(r.id);return}
+  const phrase=DictionaryCore.normalize(r.word).includes(' '),online=document.querySelector('#phrase-online').checked;
+  job.controller=new AbortController();feedback.textContent='正在查词典…';let timeout;
+  try{
+    let text,source='dictionary';
+    try{text=await Dictionary.lookup(r.word)}catch(e){if(e.message!=='NO_DICTIONARY'||!phrase||!online)throw e}
+    if(jobs.get(r.id)!==job)return;
+    if(!text&&phrase&&online){feedback.textContent='正在翻译完整短语或句子…';timeout=setTimeout(()=>job.controller.abort(),15000);text=await PhraseTranslation.translate(r.word,job.controller.signal);source='machine'}
+    if(jobs.get(r.id)!==job)return;
+    if(!text)throw Error('NOT_FOUND');
+    r.meaning=text;r.source=source;field.value=text;feedback.textContent=source==='machine'?'在线翻译参考 · 可手动修改':'ECDICT 词典释义';save();
+  }catch(e){if(jobs.get(r.id)!==job)return;feedback.textContent=e.message==='QUOTA'?'在线翻译额度暂不可用，可稍后重试或手动填写':e.message==='TOO_LONG'?'整句超过在线翻译长度限制（500 字节），请拆成较短句子':e.message==='NO_DICTIONARY'?'请先在上方导入英汉词库':e.name==='AbortError'?'在线翻译超时，可点击词典重查':e.message==='NOT_FOUND'?(phrase?'词库未收录此短语或句子，可启用在线翻译或手动填写':'词库未收录此词，可检查拼写或手动填写'):'在线翻译暂不可用，可重试或手动填写'}
+  finally{clearTimeout(timeout);if(jobs.get(r.id)===job)jobs.delete(r.id)}
+}
+function recheck(r,line){cancel(r.id);const job={};jobs.set(r.id,job);lookup(r,line.querySelector('.meaning'),line.querySelector('.feedback'),job)}
+window.addEventListener('dictionary-ready',()=>{fillBatch()});
+title.addEventListener('input',save);document.querySelector('#add').onclick=add;document.querySelector('#export').onclick=()=>{save();const output=NoteExport.serialize(document.querySelector('#export-format').value,title.value,rows);const url=URL.createObjectURL(new Blob([output.content],{type:output.mime}));const a=document.createElement('a');a.href=url;a.download=output.filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+const phraseToggle=document.querySelector('#phrase-online');try{phraseToggle.checked=localStorage.getItem('word-notes-phrase-online')!=='false'}catch{}
+phraseToggle.addEventListener('change',()=>{try{localStorage.setItem('word-notes-phrase-online',String(phraseToggle.checked))}catch{}if(!phraseToggle.checked)for(const r of rows){const job=jobs.get(r.id);if(job?.controller&&DictionaryCore.normalize(r.word).includes(' ')){cancel(r.id);const line=[...box.children].find(n=>n.dataset.id===r.id);if(line)line.querySelector('.feedback').textContent='在线翻译已关闭，可点击词典重查'}}});
+document.querySelector('#new-project').onclick=()=>{save();for(const id of jobs.keys())cancel(id);workspace.add('未命名项目 '+(workspace.state.projects.length+1));showProject();save();title.focus();title.select()};
+function download(content,mime,name){const url=URL.createObjectURL(new Blob([content],{type:mime}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+document.querySelector('#backup-all').onclick=()=>{save();download(workspace.backup(),'application/json;charset=utf-8','word-notes-all-projects.json')};
+document.querySelector('#restore-file').onchange=async event=>{const file=event.target.files[0];if(!file)return;const currentProjectId=workspace.state.activeProjectId;try{const input=JSON.parse(await file.text());if(workspace.state.activeProjectId!==currentProjectId){document.querySelector('#workspace-status').textContent='项目已切换，请重新选择备份文件';return}save();for(const id of jobs.keys())cancel(id);const added=workspace.importData(input);showProject();save();document.querySelector('#workspace-status').textContent='已导入 '+added.length+' 个项目，原项目仍保留'}catch(e){document.querySelector('#workspace-status').textContent='导入失败：'+e.message}finally{event.target.value=''}};
+document.querySelector('#snapshot').onclick=()=>{save();if(document.querySelector('script[src],link[rel="stylesheet"]')){document.querySelector('#workspace-status').textContent='请打开下载的 WordNotes_Local.html，或使用完整项目备份';return}const clone=document.documentElement.cloneNode(true);clone.querySelector('#embedded-workspace').textContent=workspace.backup().replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026');clone.querySelector('#projects').replaceChildren();clone.querySelector('#notes-preview').replaceChildren();clone.querySelector('#notes-import-status').textContent='';clone.querySelector('#notes-import').setAttribute('disabled','');clone.querySelector('#batch-status').textContent='';clone.querySelector('#batch-stop').setAttribute('hidden','');clone.querySelector('#lines').replaceChildren();clone.querySelector('#dictionary-status').textContent='正在检查本地词库…';clone.querySelector('#save-status').textContent='正在恢复笔记…';clone.querySelector('#workspace-status').textContent='';clone.querySelectorAll('[disabled]').forEach(n=>n.removeAttribute('disabled'));clone.querySelector('#notes-import').setAttribute('disabled','');download('<!doctype html>\n'+clone.outerHTML,'text/html;charset=utf-8','WordNotes_Local.html')};
+window.addEventListener('pagehide',save);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')save()});
+
+let batch=null;
+function stopBatch(){if(!batch)return;const previous=batch;batch=null;if(previous.jobId)cancel(previous.jobId);document.querySelector('#batch-stop').hidden=true;document.querySelector('#batch-fill').disabled=false;document.querySelector('#batch-status').textContent='已停止补全，已有内容已保存'}
+async function fillBatch(){
+  stopBatch();const projectId=workspace.state.activeProjectId,queue=rows.filter(r=>r.word.trim()&&!r.meaning);if(!queue.length){document.querySelector('#batch-status').textContent='没有需要补全的条目';return}
+  const token={projectId};batch=token;document.querySelector('#batch-stop').hidden=false;document.querySelector('#batch-fill').disabled=true;let finished=0,success=0;
+  for(const r of queue){
+    if(batch!==token||workspace.state.activeProjectId!==projectId)break;
+    if(rows.includes(r)&&!r.meaning){const line=[...box.children].find(n=>n.dataset.id===r.id);if(line){cancel(r.id);const job={};jobs.set(r.id,job);token.jobId=r.id;await lookup(r,line.querySelector('.meaning'),line.querySelector('.feedback'),job);if(r.meaning)success++}}
+    if(batch!==token)break;finished++;document.querySelector('#batch-status').textContent='已处理 '+finished+' / '+queue.length+' 条 · 补全 '+success+' 条';await new Promise(resolve=>setTimeout(resolve,r.source==='machine'?300:0));
+  }
+  if(batch===token){batch=null;document.querySelector('#batch-stop').hidden=true;document.querySelector('#batch-fill').disabled=false;document.querySelector('#batch-status').textContent='补全结束：'+success+' 条成功，'+(finished-success)+' 条未补全';save()}
+}
+document.querySelector('#batch-fill').onclick=fillBatch;document.querySelector('#batch-stop').onclick=stopBatch;
+let importRows=null,importName='',fileRevision=0;
+const preview=document.querySelector('#notes-preview'),importButton=document.querySelector('#notes-import'),importStatus=document.querySelector('#notes-import-status');
+function selection(){return FileImport.select(importRows||[],document.querySelector('#notes-destination').value==='current'?rows:[],document.querySelector('#notes-deduplicate').checked)}
+function drawPreview(){preview.replaceChildren();if(!importRows){importButton.disabled=true;return}const data=selection();const info=node('p','preview-count');info.textContent='共 '+data.rows.length+' 条：单词 '+data.single+' 条，短语 / 句子 '+data.multiple+' 条'+(data.duplicates?'；忽略重复 '+data.duplicates+' 条':'');const list=node('ol','preview-list');for(const r of data.rows.slice(0,50)){const item=node('li','');item.textContent=r.word;list.append(item)}preview.append(info,list);if(data.rows.length>50){const rest=node('p','');rest.textContent='预览前 50 条；确认后全部 '+data.rows.length+' 条都会显示。';preview.append(rest)}importButton.disabled=!data.rows.length}
+document.querySelector('#notes-file').onchange=async event=>{const file=event.target.files[0];if(!file)return;const revision=++fileRevision;importRows=null;drawPreview();importStatus.textContent='正在读取文件…';try{const result=await FileImport.read(file,document.querySelector('#notes-encoding').value);if(revision!==fileRevision)return;importRows=result;importName=file.name.replace(/\.[^.]+$/,'')||'导入的笔记';drawPreview();importStatus.textContent='读取完成，请确认预览后导入'}catch(e){if(revision===fileRevision)importStatus.textContent='读取失败：'+e.message}};
+document.querySelector('#notes-encoding').onchange=()=>{if(document.querySelector('#notes-file').files.length)document.querySelector('#notes-file').onchange({target:document.querySelector('#notes-file')})};document.querySelector('#notes-deduplicate').onchange=drawPreview;document.querySelector('#notes-destination').onchange=drawPreview;
+importButton.onclick=()=>{
+  if(!importRows)return;const data=selection();if(!data.rows.length)return;save();stopBatch();for(const id of jobs.keys())cancel(id);
+  if(document.querySelector('#notes-destination').value==='new')workspace.add(importName);
+  const p=workspace.active();p.rows=p.rows.filter(r=>r.word.trim()||r.meaning.trim()||r.remark.trim());for(const r of data.rows)p.rows.push(row(r.word,r.meaning,r.remark,r.source));showProject();save();
+  importRows=null;preview.replaceChildren();importButton.disabled=true;document.querySelector('#notes-file').value='';importStatus.textContent='已导入 '+data.rows.length+' 条；已自动保存';if(document.querySelector('#notes-auto').checked)fillBatch();
+};
+showProject();save();
+
+</script></body></html>
